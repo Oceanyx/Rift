@@ -28,13 +28,13 @@ function LoginFormPage() {
     <div className="login-container">
       <div className="login-wrapper">
         <div className="login-card">
-          <h1 className="login-title">Welcome back!</h1>
-          <p className="login-subtitle">We're so excited to see you again!</p>
+          <h1 className="login-title">COSMIC CONNECT</h1>
+          <p className="login-subtitle">Enter your coordinates to join the interstellar network</p>
           
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label className="form-label required">
-                Email or Phone number
+                COMM ID
               </label>
               <input
                 className="form-input"
@@ -42,12 +42,13 @@ function LoginFormPage() {
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
                 required
+                placeholder="your.id@cosmic.space"
               />
             </div>
             
             <div className="form-group">
               <label className="form-label required">
-                Password
+                ACCESS KEY
               </label>
               <input
                 className="form-input"
@@ -55,28 +56,29 @@ function LoginFormPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                placeholder="••••••••••••"
               />
               {errors.credential && <p className="form-error">{errors.credential}</p>}
             </div>
             
             <div className="form-group">
-              <span className="forgot-password">Forgot your password?</span>
+              <span className="forgot-password">Forgot your access key?</span>
             </div>
             
-            <button className="login-button" type="submit">Log In</button>
+            <button className="login-button" type="submit">Initialize Connection</button>
             
             <div className="login-footer">
-              <span>Need an account?</span>
-              <span className="register-link">Register</span>
+              <span>New to the galaxy?</span>
+              <span className="register-link">Create Star ID</span>
             </div>
           </form>
         </div>
         
         <div className="qr-section">
-          <h2 className="qr-title">Log in with QR Code</h2>
-          <p className="qr-subtitle">Scan this with the Discord mobile app to log in instantly</p>
+          <h2 className="qr-title">QUANTUM LINK</h2>
+          <p className="qr-subtitle">Scan with your StarGazer device for instant wormhole access</p>
           <div className="qr-placeholder">QR Code</div>
-          <p className="qr-help">Need help with QR code login? Make sure your Rift mobile app is up to date.</p>
+          <p className="qr-help">Make sure your StarGazer firmware is updated to v4.2+</p>
         </div>
       </div>
     </div>
