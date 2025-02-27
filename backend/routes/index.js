@@ -5,7 +5,7 @@ const apiRouter = require('./api');
 router.use('/api', apiRouter);
 
 // console.log('show me process.env'process.env.NODE_ENV)
-console.log('show me process.env', process.env)
+console.log('show me process.env anthony', process.env)
 console.log('show me process.env', process.env.NODE_ENV)
 
 // Serve React build files in production
