@@ -2,6 +2,7 @@
 
 const { User } = require('../models');
 const bcrypt = require("bcryptjs");
+const { faker } = require('@faker-js/faker');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -10,36 +11,45 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await User.bulkCreate([
+    const users = [
+      // Demo user - easy access with consistent credentials
       {
         email: 'demo@user.io',
         username: 'Demo-lition',
         hashedPassword: bcrypt.hashSync('password'),
         firstName: 'Demo',
-        lastName: 'User'
-      },
-      {
-        email: 'user1@user.io',
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync('password2'),
-        firstName: 'Fake1',
-        lastName: 'User1'
-      },
-      {
-        email: 'user2@user.io',
-        username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync('password3'),
-        firstName: 'Fake2',
-        lastName: 'User2'
+        lastName: 'User',
+        avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo-lition',
+        status: 'online',
+        created_at: new Date(),
+        updated_at: new Date()
       }
-    ], { validate: true });
+    ];
+    
+    // Generate 20 additional fake users
+    for (let i = 0; i < 20; i++) {
+      const firstName = faker.person.firstName();
+      const lastName = faker.person.lastName();
+      const username = faker.internet.userName({ firstName, lastName });
+      
+      users.push({
+        email: faker.internet.email({ firstName, lastName }),
+        username,
+        hashedPassword: bcrypt.hashSync('password'),
+        firstName,
+        lastName,
+        avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
+        status: faker.helpers.arrayElement(['online', 'idle', 'do not disturb', 'invisible', 'offline']),
+        created_at: faker.date.past(),
+        updated_at: faker.date.recent()
+      });
+    }
+    
+    await User.bulkCreate(users, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'Users';
-    const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
-    }, {});
+    return queryInterface.bulkDelete(options, {}, {});
   }
 };
