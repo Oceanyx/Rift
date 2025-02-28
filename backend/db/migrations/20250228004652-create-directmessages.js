@@ -2,51 +2,52 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Channels', {
+    await queryInterface.createTable('DirectMessages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      server_id: {
+      sender_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Servers', 
+          model: 'Users',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
-      name: {
-        type: Sequelize.STRING,
+      recipient_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      content: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'text'
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
+      has_attachment: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         field: 'created_at',
         defaultValue: Sequelize.fn('now')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.fn('now')
       }
     });
+
+    // Add index on sender_id and recipient_id
+    await queryInterface.addIndex('DirectMessages', ['sender_id', 'recipient_id']);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Channels');
+    await queryInterface.dropTable('DirectMessages');
   }
 };

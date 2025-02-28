@@ -2,51 +2,44 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Channels', {
+    await queryInterface.createTable('Attachments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      server_id: {
+      message_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Servers', 
+          model: 'Messages',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
-      name: {
+      file_url: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      type: {
+      file_type: {
         type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'text'
+        allowNull: false
       },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
+      file_name: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         field: 'created_at',
         defaultValue: Sequelize.fn('now')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.fn('now')
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Channels');
+    await queryInterface.dropTable('Attachments');
   }
 };

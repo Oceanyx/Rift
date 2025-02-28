@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Channels', {
+    await queryInterface.createTable('Roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Servers', 
+          model: 'Servers',
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -22,14 +22,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      type: {
+      color: {
         type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'text'
-      },
-      description: {
-        type: Sequelize.TEXT,
         allowNull: true
+      },
+      permissions: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,
@@ -47,6 +47,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Channels');
+    await queryInterface.dropTable('Roles');
   }
 };

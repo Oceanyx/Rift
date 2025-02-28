@@ -1,63 +1,99 @@
 'use strict';
-
-const { Model, Validator } = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
+
     static associate(models) {
-      // define association here
+      User.hasMany(models.Server, { foreignKey: 'owner_id', as: 'ownedServers' });
+      User.hasMany(models.Message, { foreignKey: 'user_id' });
+      User.hasMany(models.DirectMessage, { foreignKey: 'sender_id', as: 'sentDirectMessages' });
+      User.hasMany(models.DirectMessage, { foreignKey: 'recipient_id', as: 'receivedDirectMessages' });
+      User.belongsToMany(models.Server, { 
+        through: models.ServerMember, 
+        foreignKey: 'user_id',
+        otherKey: 'server_id'
+      });
+      User.hasMany(models.MessageReaction, { foreignKey: 'user_id' });
+      User.hasMany(models.DirectMessageReaction, { foreignKey: 'user_id' });
+    }
+
+    toSafeObject() {
+      const { id, firstName, lastName, username, email, avatar_url, status } = this;
+      return { id, firstName, lastName, username, email, avatar_url, status };
     }
   }
 
-  User.init(
-    {
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          len: [4, 30],
-          isNotEmail(value) {
-            if (Validator.isEmail(value)) {
-              throw new Error('Cannot be an email.');
-            }
-          },
-        },
-      },
-      firstName:{
-        allowNull:false,
-        type: DataTypes.STRING
-      },
-      lastName:{
-        allowNull:false,
-        type: DataTypes.STRING
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          len: [3, 256],
-          isEmail: true,
-        },
-      },
-      hashedPassword: {
-        type: DataTypes.STRING.BINARY,
-        allowNull: false,
-        validate: {
-          len: [60, 60],
-        },
-      },
+  User.init({
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1, 50]
+      }
     },
-    {
-      sequelize,
-      modelName: 'User',
-      defaultScope: {
-        attributes: {
-          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
-        },
-      },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1, 50]
+      }
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        len: [3, 30],
+        isNotEmail(value) {
+          if (Validator.isEmail(value)) {
+            throw new Error('Username cannot be an email.');
+          }
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        len: [3, 256],
+        isEmail: true
+      }
+    },
+    hashedPassword: {
+      type: DataTypes.STRING.BINARY,
+      allowNull: false,
+      validate: {
+        len: [60, 60]
+      }
+    },
+    avatar_url: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'offline'
     }
-  );
+  }, {
+    sequelize,
+    modelName: 'User',
+    underscored: true,
+    defaultScope: {
+      attributes: {
+        exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+      }
+    },
+    scopes: {
+      currentUser: {
+        attributes: { exclude: ['hashedPassword'] }
+      },
+      loginUser: {
+        attributes: {}
+      }
+    }
+  });
+
   return User;
 };

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Channels', {
+    await queryInterface.createTable('ServerMembers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,40 +13,39 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Servers', 
+          model: 'Servers',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      type: {
-        type: Sequelize.STRING,
+      user_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 'text'
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
-      description: {
-        type: Sequelize.TEXT,
+      nickname: {
+        type: Sequelize.STRING,
         allowNull: true
       },
-      createdAt: {
-        allowNull: false,
+      joined_at: {
         type: Sequelize.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.fn('now')
-      },
-      updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        field: 'updated_at',
         defaultValue: Sequelize.fn('now')
       }
+    });
+
+    // Add unique constraint on server_id and user_id
+    await queryInterface.addIndex('ServerMembers', ['server_id', 'user_id'], {
+      unique: true,
+      name: 'server_members_server_id_user_id_unique'
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Channels');
+    await queryInterface.dropTable('ServerMembers');
   }
 };

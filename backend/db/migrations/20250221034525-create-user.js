@@ -36,6 +36,14 @@ module.exports = {
         type: Sequelize.STRING.BINARY,
         allowNull: false
       },
+      avatar_url: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: 'offline'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

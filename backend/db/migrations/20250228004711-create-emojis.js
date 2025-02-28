@@ -2,33 +2,36 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Channels', {
+    await queryInterface.createTable('Emojis', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      server_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Servers', 
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
-      },
       name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      type: {
+      unicode_character: {
         type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'text'
+        allowNull: true
       },
-      description: {
-        type: Sequelize.TEXT,
+      custom: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      server_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Servers',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      image_url: {
+        type: Sequelize.STRING,
         allowNull: true
       },
       createdAt: {
@@ -36,17 +39,11 @@ module.exports = {
         type: Sequelize.DATE,
         field: 'created_at',
         defaultValue: Sequelize.fn('now')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.fn('now')
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Channels');
+    await queryInterface.dropTable('Emojis');
   }
 };
