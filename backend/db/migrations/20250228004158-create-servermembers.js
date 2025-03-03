@@ -1,4 +1,8 @@
 'use strict';
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,7 +17,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Servers',
+          model: {
+            tableName: 'Servers',
+            schema: process.env.SCHEMA || 'public'
+          },
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -22,7 +29,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: {
+            tableName: 'Users',
+            schema: process.env.SCHEMA || 'public'
+          },
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -36,7 +46,7 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
 
     // Add unique constraint on server_id and user_id
     await queryInterface.addIndex('ServerMembers', ['server_id', 'user_id'], {
@@ -46,6 +56,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('ServerMembers');
+    await queryInterface.dropTable('ServerMembers', options);
   }
 };
