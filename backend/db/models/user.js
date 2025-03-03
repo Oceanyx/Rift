@@ -8,15 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Server, { foreignKey: 'owner_id', as: 'ownedServers' });
       User.hasMany(models.Message, { foreignKey: 'user_id' });
-      // User.hasMany(models.DirectMessage, { foreignKey: 'sender_id', as: 'sentDirectMessages' });
-      // User.hasMany(models.DirectMessage, { foreignKey: 'recipient_id', as: 'receivedDirectMessages' });
       User.belongsToMany(models.Server, { 
         through: models.ServerMember, 
         foreignKey: 'user_id',
         otherKey: 'server_id'
       });
-      // User.hasMany(models.MessageReaction, { foreignKey: 'user_id' });
-      // User.hasMany(models.DirectMessageReaction, { foreignKey: 'user_id' });
     }
 
     toSafeObject() {
