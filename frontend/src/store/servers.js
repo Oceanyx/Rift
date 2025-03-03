@@ -1,26 +1,25 @@
-// frontend/src/store/servers.js
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { csrfFetch } from './csrf';
+import { csrfFetch } from '../utils/csrf';
 
-export const fetchServers = createAsyncThunk('servers/fetch', async () => {
-  const res = await csrfFetch('/api/servers/me');
-  return res.json();
+const LOAD_SERVERS = 'servers/loadServers';
+
+const loadServers = (servers) => ({
+  type: LOAD_SERVERS,
+  payload: servers,
 });
 
-const serversSlice = createSlice({
-  name: 'servers',
-  initialState: { list: [], status: 'idle' },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchServers.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchServers.fulfilled, (state, { payload }) => {
-        state.list = payload.servers;
-        state.status = 'succeeded';
-      });
+export const fetchServers = () => async (dispatch) => {
+  const response = await csrfFetch('/api/servers/me');
+  const data = await response.json();
+  dispatch(loadServers(data.servers));
+};
+
+const serversReducer = (state = [], action) => {
+  switch (action.type) {
+    case LOAD_SERVERS:
+      return action.payload;
+    default:
+      return state;
   }
-});
+};
 
-export default serversSlice.reducer;
+export default serversReducer;

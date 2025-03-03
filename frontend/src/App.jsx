@@ -1,35 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ServerList from './ServerList';
-import ChannelList from './ChannelList';
-import ChatWindow from './ChatWindow';
-import Login from './Login';
-import { restoreUser } from '../store/session';
+import { restoreUser } from './store/session';
+import LoginFormPage from './components/Auth/LoginFormPage';
+import SignupFormPage from './components/Auth/SignupFormPage';
+import MainPage from './components/MainPage';
+import './styles/global.css';
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(restoreUser());
+    dispatch(restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  if (!user) {
-    return <Login />;
-  }
+  if (!isLoaded) return null;
 
   return (
-    <div className="app-container">
-      <div className="sidebar">
-        <ServerList />
-      </div>
-      <div className="channel-pane">
-        <ChannelList />
-      </div>
-      <div className="chat-pane">
-        <ChatWindow />
-      </div>
-    </div>
+    <Routes>
+      {!user ? (
+        <>
+          <Route path="/login" element={<LoginFormPage />} />
+          <Route path="/register" element={<SignupFormPage />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </>
+      ) : (
+        <>
+          <Route path="/" element={<MainPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </>
+      )}
+    </Routes>
   );
 }
 

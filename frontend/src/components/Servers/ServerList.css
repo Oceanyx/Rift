@@ -1,0 +1,21 @@
+.server-list {
+  color: #ffffff;
+}
+
+.server-list h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.server-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.server-list li {
+  padding: 8px;
+  margin-bottom: 4px;
+  background-color: #2f3136;
+  border-radius: 4px;
+  cursor: pointer;
+}
