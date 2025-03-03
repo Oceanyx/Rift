@@ -1,5 +1,8 @@
-// Updated migration file
 'use strict';
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -14,16 +17,18 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Servers', 
+          model: {
+            tableName: 'Servers',
+            schema: process.env.SCHEMA || 'public'
+          },
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
       name: {
-        type: Sequelize.STRING(32), // Added length constraint
+        type: Sequelize.STRING(32),
         allowNull: false
       },
-      // Wrap reserved keyword in quotes
       type: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -43,10 +48,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Channels');
+    await queryInterface.dropTable('Channels', options);
   }
 };

@@ -48,7 +48,6 @@ module.exports = {
       }
     }, options);
 
-    // Add unique constraint on server_id and user_id
     await queryInterface.addIndex('ServerMembers', ['server_id', 'user_id'], {
       unique: true,
       name: 'server_members_server_id_user_id_unique'
