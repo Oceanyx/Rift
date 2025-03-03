@@ -149,6 +149,7 @@ router.put('/:messageId', requireAuth, validateMessage, async (req, res) => {
         },
         {
           model: User,
+          attributes: ['id', 'username', 'avatar_url']
         }
       ]
     });
