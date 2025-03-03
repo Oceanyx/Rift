@@ -26,9 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'text',
-      validate: {
-        isIn: [['text', 'voice', 'announcement']]
-      }
     },
     description: {
       type: DataTypes.TEXT,

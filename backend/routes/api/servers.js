@@ -125,11 +125,11 @@ router.get('/:serverId', requireAuth, async (req, res) => {
       include: [
         {
           model: Channel,
-          order: [['created_at', 'ASC']]
+          order: [['createdAt', 'ASC']]
         },
         {
           model: Role,
-          order: [['created_at', 'ASC']]
+          order: [['createdAt', 'ASC']]
         },
         {
           model: ServerMember,

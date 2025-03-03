@@ -1,4 +1,3 @@
-// channels.js
 const express = require('express');
 const { Channel, Message, Server, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
@@ -50,7 +49,6 @@ router.post('/server/:serverId', requireAuth, validateChannel, async (req, res) 
     const channel = await Channel.create({
       server_id: serverId,
       name,
-      type,
       description: description || null,
       created_at: new Date(),
       updatedAt: new Date()
@@ -76,7 +74,7 @@ router.get('/server/:serverId', requireAuth, async (req, res) => {
   try {
     const channels = await Channel.findAll({
       where: { server_id: serverId },
-      order: [['created_at', 'ASC']]
+      order: [['createdAt', 'ASC']]
     });
 
     res.json({ channels });
@@ -104,7 +102,7 @@ router.get('/:channelId', requireAuth, async (req, res) => {
     const messageQuery = {
       where: { channel_id: channelId },
       limit,
-      order: [['created_at', 'DESC']],
+      order: [['createdAt', 'DESC']],
       include: [
         {
           model: User,
@@ -115,7 +113,7 @@ router.get('/:channelId', requireAuth, async (req, res) => {
 
     // Add before condition if provided
     if (before) {
-      messageQuery.where.created_at = { [Op.lt]: before };
+      messageQuery.where.createdAt = { [Op.lt]: before };
     }
 
     // Get messages
@@ -134,7 +132,7 @@ router.get('/:channelId', requireAuth, async (req, res) => {
 // Update a channel
 router.put('/:channelId', requireAuth, validateChannel, async (req, res) => {
   const { channelId } = req.params;
-  const { name, type, description } = req.body;
+  const { name, description } = req.body;
   const userId = req.user.id;
 
   try {
@@ -154,7 +152,6 @@ router.put('/:channelId', requireAuth, validateChannel, async (req, res) => {
     // Update channel
     await channel.update({
       name: name || channel.name,
-      type: type || channel.type,
       description: description !== undefined ? description : channel.description,
       updatedAt: new Date()
     });

@@ -2,26 +2,86 @@
     background-color: #2f3136;
     padding: 10px;
     color: #b9bbbe;
+    border-right: 1px solid #202225;
+    width: 240px;
   }
   
   .channel-list h3 {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 10px;
+    color: #ffffff;
   }
   
   .channel-list ul {
     list-style: none;
     padding: 0;
+    margin: 0;
   }
   
-  .channel-list li {
-    padding: 6px;
+  .channel-item {
+    padding: 8px;
     margin-bottom: 4px;
+    background-color: #36393f;
     border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .channel-item:hover {
+    background-color: #40444b;
+  }
+  
+  .channel-item span {
+    flex: 1;
+  }
+  
+  .channel-item input[type="text"] {
+    flex: 1;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .channel-item button {
+    margin-left: 5px;
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 8px;
     cursor: pointer;
   }
   
-  .channel-list li:hover {
-    background-color: #40444b;
+  .channel-item button:hover {
+    background-color: #4752c4;
+  }
+  
+  .channel-form {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .channel-form input[type="text"] {
+    flex: 1;
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px;
+  }
+  
+  .channel-form button {
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  
+  .channel-form button:hover {
+    background-color: #4752c4;
   }
   

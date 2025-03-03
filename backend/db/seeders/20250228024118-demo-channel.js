@@ -16,7 +16,6 @@ module.exports = {
       channels.push({
         server_id,
         name: 'general',
-        type: 'text',
         description: 'General discussion',
         createdAt: faker.date.past(), 
         updatedAt: faker.date.recent()
@@ -25,7 +24,6 @@ module.exports = {
       channels.push({
         server_id,
         name: 'welcome',
-        type: 'announcement',
         description: 'Welcome messages and server announcements',
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent()
@@ -34,7 +32,6 @@ module.exports = {
       channels.push({
         server_id,
         name: 'voice-chat',
-        type: 'voice',
         description: 'Voice communication channel',
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent()
@@ -48,7 +45,6 @@ module.exports = {
         channels.push({
           server_id,
           name: theme,
-          type: 'text',
           description: `Channel for discussing ${theme}`,
           createdAt: faker.date.past(),
           updatedAt: faker.date.recent()

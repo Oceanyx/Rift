@@ -108,7 +108,7 @@ router.get('/channel/:channelId', requireAuth, async (req, res) => {
     const messageQuery = {
       where: { channel_id: channelId },
       limit,
-      order: [['created_at', 'DESC']],
+      order: [['createdAt', 'DESC']],
       include: [
         {
           model: User,
@@ -119,7 +119,7 @@ router.get('/channel/:channelId', requireAuth, async (req, res) => {
 
     // Add before condition if provided
     if (before) {
-      messageQuery.where.created_at = { [Op.lt]: before };
+      messageQuery.where.createdAt = { [Op.lt]: before };
     }
 
     // Get messages
@@ -139,6 +139,7 @@ router.put('/:messageId', requireAuth, validateMessage, async (req, res) => {
   const { messageId } = req.params;
   const { content } = req.body;
   const userId = req.user.id;
+  console.log('wazzzaaapppp', messageId, content, userId)
 
   try {
     const message = await Message.findByPk(messageId, {
@@ -148,7 +149,6 @@ router.put('/:messageId', requireAuth, validateMessage, async (req, res) => {
         },
         {
           model: User,
-          attributes: ['id', 'username', 'avatar_url']
         }
       ]
     });
@@ -168,12 +168,15 @@ router.put('/:messageId', requireAuth, validateMessage, async (req, res) => {
       updatedAt: new Date()
     });
 
+    console.log('message update succeeded')
+
     // Broadcast message update
     broadcastToChannel(message.channel_id, {
       type: 'MESSAGE_UPDATED',
       message: message.toJSON()
     });
 
+    console.log('broadcast update succeeded')
     res.json({ message });
   } catch (error) {
     console.error(error);
