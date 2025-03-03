@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
 import socket from '../utils/socket';
 
 export const WebSocketContext = createContext();

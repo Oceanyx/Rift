@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import MessageList from '../Messages/MessageList';
 import MessageInput from '../Messages/MessageInput';

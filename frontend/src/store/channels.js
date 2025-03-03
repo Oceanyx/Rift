@@ -1,5 +1,5 @@
 import { csrfFetch } from '../utils/csrf';
-import socket from '../utils/socket';
+// import socket from '../utils/socket';
 
 const LOAD_CHANNELS = 'channels/loadChannels';
 const ADD_CHANNEL = 'channels/addChannel';
