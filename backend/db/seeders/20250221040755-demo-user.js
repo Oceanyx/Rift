@@ -22,7 +22,7 @@ module.exports = {
         avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo-lition',
         status: 'online',
         created_at: new Date(),
-        updated_at: new Date()
+        updatedAt: new Date()
       }
     ];
     
@@ -30,7 +30,7 @@ module.exports = {
     for (let i = 0; i < 20; i++) {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
-      const username = faker.internet.userName({ firstName, lastName });
+      const username = faker.internet.username({ firstName, lastName });
       
       users.push({
         email: faker.internet.email({ firstName, lastName }),
@@ -41,11 +41,17 @@ module.exports = {
         avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
         status: faker.helpers.arrayElement(['online', 'idle', 'do not disturb', 'invisible', 'offline']),
         created_at: faker.date.past(),
-        updated_at: faker.date.recent()
+        updatedAt: faker.date.recent()
       });
     }
     
-    await User.bulkCreate(users, { validate: true });
+    try {
+      await User.bulkCreate(users, { validate: true });
+      console.log('Successfully created users');
+    } catch (error) {
+      console.error('Error creating users:', error.message);
+      throw error; // Re-throw to stop the seeding process
+    }
   },
 
   async down (queryInterface, Sequelize) {

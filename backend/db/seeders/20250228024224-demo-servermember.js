@@ -50,7 +50,7 @@ module.exports = {
         serverMembers.push({
           server_id,
           user_id,
-          nickname: faker.helpers.arrayElement([null, faker.internet.userName(), faker.word.adjective() + faker.word.noun()]),
+          nickname: faker.helpers.arrayElement([null, faker.internet.username(), faker.word.adjective() + faker.word.noun()]),
           joined_at: faker.date.past()
         });
       }

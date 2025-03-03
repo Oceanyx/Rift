@@ -53,7 +53,7 @@ router.post('/server/:serverId', requireAuth, validateChannel, async (req, res) 
       type,
       description: description || null,
       created_at: new Date(),
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Broadcast new channel to server members
@@ -156,7 +156,7 @@ router.put('/:channelId', requireAuth, validateChannel, async (req, res) => {
       name: name || channel.name,
       type: type || channel.type,
       description: description !== undefined ? description : channel.description,
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Broadcast channel update

@@ -34,7 +34,7 @@ router.post('/', requireAuth, validateServerCreation, async (req, res) => {
       icon_url,
       owner_id: userId,
       created_at: new Date(),
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Create default channels
@@ -44,7 +44,7 @@ router.post('/', requireAuth, validateServerCreation, async (req, res) => {
       type: 'text',
       description: 'General discussion',
       created_at: new Date(),
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Create default "everyone" role
@@ -54,7 +54,7 @@ router.post('/', requireAuth, validateServerCreation, async (req, res) => {
       color: '#99AAB5',
       permissions: 1, // basic permissions
       created_at: new Date(),
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Add creator as a member
@@ -90,7 +90,7 @@ router.get('/me', requireAuth, async (req, res) => {
             {
               model: Channel,
               limit: 5, // Just get first 5 channels for preview
-              order: [['created_at', 'ASC']]
+              order: [['createdAt', 'ASC']]
             }
           ]
         }
@@ -177,7 +177,7 @@ router.put('/:serverId', requireAuth, validateServerCreation, async (req, res) =
       name: name || server.name,
       description: description !== undefined ? description : server.description,
       icon_url: icon_url || server.icon_url,
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Broadcast update to all connected clients in this server

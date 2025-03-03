@@ -33,14 +33,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.fn('now')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.fn('now')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

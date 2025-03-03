@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'user_id'
       });
       Server.hasMany(models.Role, { foreignKey: 'server_id', onDelete: 'CASCADE', hooks: true });
-      Server.hasMany(models.Emoji, { foreignKey: 'server_id', onDelete: 'CASCADE', hooks: true });
+      // Server.hasMany(models.Emoji, { foreignKey: 'server_id', onDelete: 'CASCADE', hooks: true });
     }
   }
 
@@ -36,11 +36,20 @@ module.exports = (sequelize, DataTypes) => {
     owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Server',
-    underscored: true
   });
 
   return Server;

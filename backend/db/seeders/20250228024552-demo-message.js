@@ -70,7 +70,7 @@ module.exports = {
           content,
           has_attachment,
           created_at: faker.date.recent({ days: 30 }),
-          updated_at: faker.date.recent()
+          updatedAt: faker.date.recent()
         });
       }
     }
@@ -84,7 +84,7 @@ module.exports = {
         content: "Hey everyone! This is the demo user. Feel free to explore the server!",
         has_attachment: false,
         created_at: faker.date.recent({ days: 2 }),
-        updated_at: faker.date.recent()
+        updatedAt: faker.date.recent()
       });
     }
     

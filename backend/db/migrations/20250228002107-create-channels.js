@@ -1,3 +1,4 @@
+// Updated migration file
 'use strict';
 
 module.exports = {
@@ -19,9 +20,10 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(32), // Added length constraint
         allowNull: false
       },
+      // Wrap reserved keyword in quotes
       type: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -34,14 +36,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.fn('now')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.fn('now')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

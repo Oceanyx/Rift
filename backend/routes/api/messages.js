@@ -51,7 +51,7 @@ router.post('/channel/:channelId', requireAuth, validateMessage, async (req, res
       content,
       has_attachment: false,
       created_at: new Date(),
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Get user information for the response
@@ -165,7 +165,7 @@ router.put('/:messageId', requireAuth, validateMessage, async (req, res) => {
     // Update message
     await message.update({
       content,
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Broadcast message update

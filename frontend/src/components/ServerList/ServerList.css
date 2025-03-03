@@ -1,0 +1,48 @@
+/* frontend/src/components/ServerList/ServerList.css */
+.server-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 72px;
+    background-color: var(--background-tertiary);
+    padding: 12px 0;
+    align-items: center;
+  }
+  
+  .server-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--background-secondary);
+    transition: all 0.2s;
+    overflow: hidden;
+  }
+  
+  .server-icon:hover {
+    border-radius: 16px;
+    background-color: var(--brand-color);
+  }
+  
+  .server-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .home-server {
+    background-color: var(--brand-color);
+  }
+  
+  .home-server:hover {
+    background-color: var(--brand-color-hover);
+  }
+  
+  .server-separator {
+    width: 32px;
+    height: 2px;
+    background-color: var(--background-secondary);
+    margin: 8px 0;
+  }

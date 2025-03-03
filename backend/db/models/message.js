@@ -7,8 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       // Define associations
       Message.belongsTo(models.Channel, { foreignKey: 'channel_id' });
       Message.belongsTo(models.User, { foreignKey: 'user_id', as: 'author' });
-      Message.hasMany(models.Attachment, { foreignKey: 'message_id', onDelete: 'CASCADE', hooks: true });
-      Message.hasMany(models.MessageReaction, { foreignKey: 'message_id', onDelete: 'CASCADE', hooks: true });
     }
   }
 
@@ -35,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Message',
-    underscored: true
   });
 
   return Message;

@@ -7,11 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       // Define associations
       ServerMember.belongsTo(models.Server, { foreignKey: 'server_id' });
       ServerMember.belongsTo(models.User, { foreignKey: 'user_id' });
-      ServerMember.belongsToMany(models.Role, { 
-        through: models.MemberRole,
-        foreignKey: 'member_id',
-        otherKey: 'role_id'
-      });
     }
   }
 
@@ -36,8 +31,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'ServerMember',
-    tableName: 'ServerMembers',
-    underscored: true,
     timestamps: false,
     indexes: [
       {

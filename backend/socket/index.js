@@ -8,13 +8,7 @@ const {
   Server, 
   Channel, 
   ServerMember,
-  DirectMessage,
-  Attachment,
-  Role,
-  MemberRole,
-  Emoji,
-  MessageReaction,
-  DirectMessageReaction
+  Role
 } = require('../db/models');
 
 
@@ -254,7 +248,7 @@ function setupWebSocketServer(server) {
                   content: data.content,
                   has_attachment: hasAttachment,
                   created_at: new Date(),
-                  updated_at: new Date()
+                  updatedAt: new Date()
                 });
                 
                 // Create attachments if any

@@ -50,7 +50,7 @@ router.post('/server/:serverId', requireAuth, validateRole, async (req, res) => 
       color: color || '#99AAB5', // Default color
       permissions,
       created_at: new Date(),
-      updated_at: new Date()
+      updatedAt: new Date()
     });
 
     // Broadcast new role to server
@@ -124,7 +124,7 @@ router.get('/server/:serverId', requireAuth, async (req, res) => {
         name: name || role.name,
         color: color || role.color,
         permissions: permissions !== undefined ? permissions : role.permissions,
-        updated_at: new Date()
+        updatedAt: new Date()
       });
   
       // Broadcast role update

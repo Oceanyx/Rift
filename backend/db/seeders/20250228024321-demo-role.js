@@ -26,7 +26,7 @@ module.exports = {
         color: '#FF0000', // Red
         permissions: 1023, // Full permissions (binary 1111111111)
         created_at: faker.date.past(),
-        updated_at: faker.date.recent()
+        updatedAt: faker.date.recent()
       });
       
       // Every server has a moderator role
@@ -36,7 +36,7 @@ module.exports = {
         color: '#00FF00', // Green
         permissions: 511, // Moderate permissions (binary 0111111111)
         created_at: faker.date.past(),
-        updated_at: faker.date.recent()
+        updatedAt: faker.date.recent()
       });
       
       // Add 2-4 custom roles per server
@@ -51,7 +51,7 @@ module.exports = {
           color: randomColor(),
           permissions: faker.number.int({ min: 1, max: 255 }), // Limited permissions
           created_at: faker.date.past(),
-          updated_at: faker.date.recent()
+          updatedAt: faker.date.recent()
         });
       }
     }
