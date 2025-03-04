@@ -33,7 +33,7 @@ export default function ChannelList({ serverId, setSelectedChannelId }) {
           <li
             key={channel.id}
             className="channel-item"
-            onClick={() => setSelectedChannelId(channel.id)} // ✅ Set selected channel on click
+            onClick={() => setSelectedChannelId(channel.id)}
           >
             {editMode === channel.id ? (
               <>
