@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { editChannel, removeChannel } from '../../store/channels';
 import Modal from '../Modal/Modal';
