@@ -42,16 +42,10 @@ module.exports = {
       }
     }, options);
 
-    await queryInterface.addIndex(
-      {
-        tableName: 'ServerMembers',
-      },
-      ['server_id', 'user_id'],
-      {
-        unique: true,
-        name: 'server_members_server_id_user_id_unique'
-      }
-    );
+    await queryInterface.addIndex('ServerMembers', ['server_id', 'user_id'], {
+      unique: true,
+      name: 'server_members_server_id_user_id_unique'
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
