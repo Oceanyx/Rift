@@ -19,7 +19,6 @@ module.exports = {
         references: {
           model: {
             tableName: 'Channels',
-            schema: process.env.SCHEMA || 'public'
           },
           key: 'id'
         },
@@ -30,8 +29,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: 'Users',
-            schema: process.env.SCHEMA || 'public'
+            tableName: 'Users'
           },
           key: 'id'
         },

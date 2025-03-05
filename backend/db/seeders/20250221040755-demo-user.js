@@ -1,18 +1,17 @@
 'use strict';
 
-const { User } = require('../models');
 const bcrypt = require("bcryptjs");
 const { faker } = require('@faker-js/faker');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+  options.schema = process.env.SCHEMA;  // Only apply schema in production
 }
+options.tableName = 'Users';
 
 module.exports = {
   async up (queryInterface, Sequelize) {
     const users = [
-      // Demo user - easy access with consistent credentials
       {
         email: 'demo1@user.io',
         username: 'Demo1',
@@ -21,21 +20,21 @@ module.exports = {
         lastName: 'User',
         avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo1',
         status: 'online',
-        created_at: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: 'demo2@user.io',
+        username: 'Demo2',
+        hashedPassword: bcrypt.hashSync('password'),
+        firstName: 'Demo',
+        lastName: 'User',
+        avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo2',
+        status: 'online',
+        createdAt: new Date(),
         updatedAt: new Date()
       }
     ];
-    users.push({
-      email: 'demo2@user.io',
-      username: 'Demo2',
-      hashedPassword: bcrypt.hashSync('password'),
-      firstName: 'Demo',
-      lastName: 'User',
-      avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo2',
-      status: 'online',
-      created_at: new Date(),
-      updatedAt: new Date()
-    });
     
     // Generate 20 additional fake users
     for (let i = 0; i < 20; i++) {
@@ -51,13 +50,13 @@ module.exports = {
         lastName,
         avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
         status: faker.helpers.arrayElement(['online', 'idle', 'do not disturb', 'invisible', 'offline']),
-        created_at: faker.date.past(),
+        createdAt: faker.date.past(),
         updatedAt: faker.date.recent()
       });
     }
     
     try {
-      await User.bulkCreate(users, { validate: true });
+      await queryInterface.bulkInsert(options, users, {});
       console.log('Successfully created users');
     } catch (error) {
       console.error('Error creating users:', error.message);
@@ -66,7 +65,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Users';
     return queryInterface.bulkDelete(options, {}, {});
   }
 };

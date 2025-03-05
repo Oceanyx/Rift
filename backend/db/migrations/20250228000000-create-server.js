@@ -31,7 +31,6 @@ module.exports = {
         references: {
           model: {
             tableName: 'Users',
-            schema: process.env.SCHEMA || 'public'
           },
           key: 'id'
         },

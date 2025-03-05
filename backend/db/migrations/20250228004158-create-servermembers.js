@@ -18,8 +18,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: 'Servers',
-            schema: process.env.SCHEMA || 'public'
+            tableName: 'Servers'
           },
           key: 'id'
         },
@@ -30,8 +29,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: 'Users',
-            schema: process.env.SCHEMA || 'public'
+            tableName: 'Users'
           },
           key: 'id'
         },
@@ -51,7 +49,6 @@ module.exports = {
     await queryInterface.addIndex(
       {
         tableName: 'ServerMembers',
-        schema: process.env.SCHEMA || 'public'
       },
       ['server_id', 'user_id'],
       {

@@ -19,7 +19,6 @@ module.exports = {
         references: {
           model: {
             tableName: 'Servers',
-            schema: process.env.SCHEMA || 'public'
           },
           key: 'id'
         },
