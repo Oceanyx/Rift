@@ -35,9 +35,6 @@ module.exports = {
       status: 'online',
       created_at: new Date(),
       updatedAt: new Date()
-
-
-
     });
     
     // Generate 20 additional fake users
