@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import { useNavigate } from 'react-router-dom';
 import './SignupFormPage.css';
 
 export default function SignupFormPage() {
@@ -13,7 +14,14 @@ export default function SignupFormPage() {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
+  const handleClick = (event) => {
+    event.preventDefault(); // Prevents the default behavior of the anchor tag
+    navigate('/login'); // Navigates to the login page
+  };
+
+  
   if (user) return <Navigate to="/" replace />;
 
   const handleSubmit = (e) => {
@@ -103,7 +111,7 @@ export default function SignupFormPage() {
 
           <div className="discord-auth-footer">
             <span>Already have an account?</span>
-            <a href="/login" className="discord-auth-link">Log In</a>
+            <a href="/login" onClick={handleClick} className="discord-auth-link">Log In</a>
           </div>
         </form>
       </div>

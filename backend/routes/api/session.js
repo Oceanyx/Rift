@@ -27,7 +27,8 @@ router.get(
             email: user.email,
             username: user.username,
             firstName: user.firstName,
-            lastName: user.lastName
+            lastName: user.lastName,
+            avatar_url:user.avatar_url
         };
         return res.json({
             user: safeUser
@@ -77,7 +78,8 @@ const validateLogin = [
         email: user.email,
         username: user.username,
         firstName: user.firstName,
-        lastName: user.lastName
+        lastName: user.lastName,
+        avatar_url:user.avatar_url
     };
   
       await setTokenCookie(res, safeUser);

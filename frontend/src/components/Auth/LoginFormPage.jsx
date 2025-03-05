@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import './LoginFormPage.css';
 
@@ -10,6 +10,12 @@ export default function LoginFormPage() {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    navigate('/register');
+  };
 
   if (user) return <Navigate to="/" replace />;
 
@@ -18,7 +24,17 @@ export default function LoginFormPage() {
     dispatch(sessionActions.login({ credential, password }))
       .catch(async (res) => {
         const data = await res.json();
-        data?.errors && setErrors(data.errors);
+        if (data?.errors) setErrors(data.errors);
+      });
+  };
+
+  const handleDemoLogin = (demoCredential) => {
+    setCredential(demoCredential);
+    setPassword('password');
+    dispatch(sessionActions.login({ credential: demoCredential, password: 'password' }))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data?.errors) setErrors(data.errors);
       });
   };
 
@@ -65,8 +81,34 @@ export default function LoginFormPage() {
 
           <div className="discord-auth-footer">
             <span>Need an account?</span>
-            <a href="/register" className="discord-auth-link">Register</a>
+            <a href="/register" onClick={handleClick} className="discord-auth-link">Register</a>
           </div>
+
+          <div className="discord-demo" style={{ textAlign: 'center', marginTop: '1rem' }}>
+            <span>Want to test websockets? Demo here: </span>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleDemoLogin('demo1@user.io');
+              }}
+              className="discord-auth-link"
+            >
+              Demo1
+            </a>
+            &nbsp;
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleDemoLogin('demo2@user.io');
+              }}
+              className="discord-auth-link"
+            >
+              Demo2
+            </a>
+          </div>
+
         </form>
       </div>
     </div>

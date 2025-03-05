@@ -14,17 +14,31 @@ module.exports = {
     const users = [
       // Demo user - easy access with consistent credentials
       {
-        email: 'demo@user.io',
-        username: 'Demo-lition',
+        email: 'demo1@user.io',
+        username: 'Demo1',
         hashedPassword: bcrypt.hashSync('password'),
         firstName: 'Demo',
         lastName: 'User',
-        avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo-lition',
+        avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo1',
         status: 'online',
         created_at: new Date(),
         updatedAt: new Date()
       }
     ];
+    users.push({
+      email: 'demo2@user.io',
+      username: 'Demo2',
+      hashedPassword: bcrypt.hashSync('password'),
+      firstName: 'Demo',
+      lastName: 'User',
+      avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo2',
+      status: 'online',
+      created_at: new Date(),
+      updatedAt: new Date()
+
+
+
+    });
     
     // Generate 20 additional fake users
     for (let i = 0; i < 20; i++) {
@@ -50,7 +64,7 @@ module.exports = {
       console.log('Successfully created users');
     } catch (error) {
       console.error('Error creating users:', error.message);
-      throw error; // Re-throw to stop the seeding process
+      throw error;
     }
   },
 

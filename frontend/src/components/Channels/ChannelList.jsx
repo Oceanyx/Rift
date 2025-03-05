@@ -1,68 +1,78 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createChannel, editChannel, removeChannel } from '../../store/channels';
+import { logout } from '../../store/session';
+import CreateChannelModal from './CreateChannelModal';
+import EditChannelModal from './EditChannelModal';
 import './ChannelList.css';
 
-export default function ChannelList({ serverId, setSelectedChannelId }) {
+export default function ChannelList({ serverId, selectedChannelId, setSelectedChannelId }) {
   const dispatch = useDispatch();
   const channels = useSelector(state => state.channels);
-  const [newChannelName, setNewChannelName] = useState('');
-  const [editMode, setEditMode] = useState(null);
-  const [editName, setEditName] = useState('');
+  const servers = useSelector(state => state.servers);
+  const user = useSelector(state => state.session.user);
 
-  const handleCreate = () => {
-    if (newChannelName.trim()) {
-      dispatch(createChannel(serverId, newChannelName));
-      setNewChannelName('');
-    }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
-  const handleEdit = (channelId) => {
-    if (editName.trim()) {
-      dispatch(editChannel(channelId, editName));
-      setEditMode(null);
-      setEditName('');
-    }
-  };
+  // Find the current server based on serverId
+  const currentServer = servers.find(server => server.id === serverId);
 
   return (
     <div className="channel-list">
-      <h3>Channels</h3>
+      {/* Server Name Box at the Top */}
+      <div className="server-name-box">
+        {currentServer ? currentServer.name : "Loading..."}
+      </div>
+
+      {/* "Channels" Header with `+` Button */}
+      <div className="channels-header">
+        <span>Channels</span>
+        <button className="add-channel-button" onClick={() => setIsModalOpen(true)}>+</button>
+      </div>
+
       <ul>
         {channels.map(channel => (
           <li
             key={channel.id}
-            className="channel-item"
+            className={`channel-item ${channel.id === selectedChannelId ? 'selected' : ''}`}
             onClick={() => setSelectedChannelId(channel.id)}
           >
-            {editMode === channel.id ? (
-              <>
-                <input
-                  type="text"
-                  value={editName}
-                  onChange={(e) => setEditName(e.target.value)}
-                />
-                <button onClick={() => handleEdit(channel.id)}>Save</button>
-                <button onClick={() => setEditMode(null)}>Cancel</button>
-              </>
-            ) : (
-              <>
-                <span onClick={() => setEditMode(channel.id)}>{channel.name}</span>
-                <button onClick={() => dispatch(removeChannel(channel.id))}>Delete</button>
-              </>
-            )}
+            #&nbsp;
+            <>
+              <span>{channel.name}</span>
+              <EditChannelModal channel={channel} />
+            </>
           </li>
         ))}
       </ul>
-      <div className="channel-form">
-        <input
-          type="text"
-          placeholder="New channel name"
-          value={newChannelName}
-          onChange={(e) => setNewChannelName(e.target.value)}
-        />
-        <button onClick={handleCreate}>Create</button>
-      </div>
+
+      {user && (
+        <div 
+          className="profile-box" 
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
+          <img src={user.avatar_url} alt="User Avatar" className="profile-avatar" />
+          <span className="profile-username">{user.username}</span>
+
+          {/* Dropdown for Logout */}
+          {showDropdown && (
+            <div className="profile-dropdown">
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Create Channel Modal */}
+      <CreateChannelModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        serverId={serverId} 
+      />
     </div>
   );
 }

@@ -14,25 +14,26 @@ export default function MainPage() {
   const [selectedServerId, setSelectedServerId] = useState(null);
   const [selectedChannelId, setSelectedChannelId] = useState(null);
 
+  // Fetch servers on mount
   useEffect(() => {
     dispatch(fetchServers());
   }, [dispatch]);
 
-  // selects 1st server upon loading
+  // Auto-select the first server when servers load
   useEffect(() => {
     if (servers.length > 0 && !selectedServerId) {
       setSelectedServerId(servers[0].id);
     }
   }, [servers, selectedServerId]);
 
-  // fetches channels when server selected
+  // Fetch channels when a server is selected
   useEffect(() => {
     if (selectedServerId) {
       dispatch(fetchChannels(selectedServerId));
     }
   }, [dispatch, selectedServerId]);
 
-  // selects 1st channel when loaded
+  // Auto-select the first channel when channels load
   useEffect(() => {
     if (channels.length > 0 && !selectedChannelId) {
       setSelectedChannelId(channels[0].id);
@@ -46,14 +47,21 @@ export default function MainPage() {
       </div>
       <div className="channel-container">
         {selectedServerId ? (
-          <>
-            <ChannelList serverId={selectedServerId} setSelectedChannelId={setSelectedChannelId} />
-            {selectedChannelId ? (
-              <ChannelMessages channelId={selectedChannelId} />
-            ) : (
-              <div>Loading channels...</div>
-            )}
-          </>
+          <div className="channel-inner-container">
+            <div className="channel-list-container">
+              <ChannelList 
+                serverId={selectedServerId} 
+                setSelectedChannelId={setSelectedChannelId} 
+              />
+            </div>
+            <div className="channel-messages-container">
+              {selectedChannelId ? (
+                <ChannelMessages channelId={selectedChannelId} />
+              ) : (
+                <div>Loading channels...</div>
+              )}
+            </div>
+          </div>
         ) : (
           <div>Loading servers...</div>
         )}
