@@ -1,11 +1,24 @@
 .discord-auth-container {
-    background-color: #36393f;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
+  background: url('/Rift.jpeg') no-repeat center center/cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  position: relative;
+}
+
+.rift-logo {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
   
   .discord-auth-card {
     background-color: #2f3136;

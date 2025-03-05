@@ -1,10 +1,21 @@
 .discord-auth-container {
-  background-color: #36393f;
+  background: url('/Rift.jpeg') no-repeat center center/cover;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  position: relative;
+}
+
+.rift-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  z-index: 10; /* Ensures it stays on top */
 }
 
 .discord-auth-card {

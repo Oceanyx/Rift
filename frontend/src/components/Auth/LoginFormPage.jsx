@@ -39,7 +39,10 @@ export default function LoginFormPage() {
   };
 
   return (
-    <div className="discord-auth-container">
+    <>
+   
+    <div className="discord-auth-container"> 
+      <div className="rift-logo">Rift</div>
       <div className="discord-auth-card">
         <h1 className="discord-auth-title">Welcome back!</h1>
         <p className="discord-auth-subtitle">We&apos;re so excited to see you again!</p>
@@ -112,5 +115,6 @@ export default function LoginFormPage() {
         </form>
       </div>
     </div>
+    </>
   );
 }

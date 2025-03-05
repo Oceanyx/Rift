@@ -17,8 +17,8 @@ export default function SignupFormPage() {
   const navigate = useNavigate();
 
   const handleClick = (event) => {
-    event.preventDefault(); // Prevents the default behavior of the anchor tag
-    navigate('/login'); // Navigates to the login page
+    event.preventDefault();
+    navigate('/login');
   };
 
   
@@ -34,6 +34,8 @@ export default function SignupFormPage() {
   };
 
   return (
+    <>
+    <div className="rift-logo">Rift</div>
     <div className="discord-auth-container">
       <div className="discord-auth-card">
         <h1 className="discord-auth-title">Create an account</h1>
@@ -116,5 +118,6 @@ export default function SignupFormPage() {
         </form>
       </div>
     </div>
+    </>
   );
 }
