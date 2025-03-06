@@ -17,11 +17,24 @@ export default function CreateChannelModal({ isOpen, onClose, serverId }) {
     setChannelType(e.target.value);
   };
 
+  const handleChannelNameChange = (e) => {
+    const value = e.target.value;
+    // If the value contains any character that is not a letter or number, alert the user.
+    if (/[^a-zA-Z0-9]/.test(value)) {
+      alert("Only letters and numbers are allowed.");
+      return;
+    }
+    setChannelName(value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!channelName.trim()) return;
     
-    dispatch(createChannel(serverId, channelName, channelType));
+    // Convert channel name to lowercase before dispatching
+    const lowerCaseChannelName = channelName.toLowerCase();
+    
+    dispatch(createChannel(serverId, lowerCaseChannelName, channelType));
     setChannelName('');
     onClose();
   };
@@ -35,7 +48,7 @@ export default function CreateChannelModal({ isOpen, onClose, serverId }) {
           <input 
             type="text" 
             value={channelName} 
-            onChange={(e) => setChannelName(e.target.value)} 
+            onChange={handleChannelNameChange} 
             required 
           />
         </label>

@@ -73,7 +73,10 @@ export default function SignupFormPage() {
           </div>
 
           <div className="discord-input-group">
-            <label className="discord-input-label">FIRST NAME</label>
+            <label className="discord-input-label">
+              FIRST NAME
+              <span className="discord-required">*</span>
+            </label>
             <input
               type="text"
               className="discord-input"
@@ -83,7 +86,10 @@ export default function SignupFormPage() {
           </div>
 
           <div className="discord-input-group">
-            <label className="discord-input-label">LAST NAME</label>
+            <label className="discord-input-label">
+              LAST NAME
+              <span className="discord-required">*</span>
+              </label>
             <input
               type="text"
               className="discord-input"

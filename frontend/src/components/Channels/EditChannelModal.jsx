@@ -1,27 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { editChannel, removeChannel } from '../../store/channels';
 import Modal from '../Modal/Modal';
 import { Settings } from 'lucide-react';
 
-export default function EditChannelModal({ channel }) {
+export default function EditChannelModal({ channel, isOwner, onDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [channelName, setChannelName] = useState(channel.name);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setChannelName(channel.name);
+  }, [channel.name]);
+
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    if (/[^a-zA-Z0-9]/.test(value)) {
+      alert("Only letters and numbers are allowed.");
+      return;
+    }
+    setChannelName(value);
+  };
+
   const handleOpenModal = () => {
+    if (!isOwner) {
+      alert("You do not have permission to edit a channel because you do not own the server.");
+      return;
+    }
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    // Reset channel name to original when closing
     setChannelName(channel.name);
   };
 
   const handleSaveChanges = () => {
     if (channelName.trim()) {
-      dispatch(editChannel(channel.id, channelName));
+      const lowerCaseChannelName = channelName.toLowerCase();
+      dispatch(editChannel(channel.id, lowerCaseChannelName));
       handleCloseModal();
     }
   };
@@ -29,6 +46,10 @@ export default function EditChannelModal({ channel }) {
   const handleDeleteChannel = () => {
     dispatch(removeChannel(channel.id));
     handleCloseModal();
+    // Delay onDelete callback to ensure the store has updated
+    setTimeout(() => {
+      if (onDelete) onDelete();
+    }, 0);
   };
 
   return (
@@ -48,7 +69,7 @@ export default function EditChannelModal({ channel }) {
             <input 
               type="text" 
               value={channelName}
-              onChange={(e) => setChannelName(e.target.value)}
+              onChange={handleNameChange}
               className="channel-name-input"
             />
           </div>
