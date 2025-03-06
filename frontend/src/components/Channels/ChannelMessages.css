@@ -1,8 +1,73 @@
-.channel-messages {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #36393f;
-    overflow: hidden;
-  }
-  
+.message-list {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #36393f; /* Discord dark background */
+}
+
+.message-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #2f3136;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.message-content {
+  flex: 1;
+}
+
+.message-username {
+  font-weight: bold;
+  color: #dcddde;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.message-text {
+  color: #dcddde;
+}
+
+.edit-message-box {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.edit-message-box input {
+  flex: 1;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #72767d;
+  background: #40444b;
+  color: #dcddde;
+  margin-right: 5px;
+}
+
+.message-actions {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-actions button {
+  background-color: #5865f2;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.message-actions button:hover {
+  background-color: #4752c4;
+}

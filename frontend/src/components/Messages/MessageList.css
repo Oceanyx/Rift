@@ -1,23 +1,80 @@
 .message-list {
-  flex: 1;
   padding: 10px;
   overflow-y: auto;
+  background-color: #36393f; /* Discord-like dark background */
 }
 
+/* Each user's message group has only one border on top */
+.message-group {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  padding: 10px 0;
+  border-top: 1px solid #2f3136;
+}
+
+/* Header for displaying avatar and username */
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.message-username {
+  font-weight: bold;
+  color: #dcddde;
+}
+
+/* Message content is indented so all messages align vertically */
+.message-content {
+  margin-left: 50px; /* Adjust this to align with username text */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each message item: text on left, edit/delete on right */
 .message-item {
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 2px 0;
 }
 
-.message-item input {
+.message-text {
+  color: #dcddde;
+}
+
+/* Edit section styling */
+.edit-section {
+  display: flex;
+  align-items: center;
   flex: 1;
+}
+
+.edit-input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #72767d;
+  border-radius: 3px;
+  background: #40444b;
+  color: #dcddde;
   margin-right: 5px;
 }
 
-.message-item button {
-  margin-left: 5px;
+.action-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.action-btn {
   background-color: #5865f2;
   color: #ffffff;
   border: none;
@@ -26,6 +83,6 @@
   cursor: pointer;
 }
 
-.message-item button:hover {
+.action-btn:hover {
   background-color: #4752c4;
 }
