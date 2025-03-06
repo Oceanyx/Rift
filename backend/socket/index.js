@@ -27,7 +27,6 @@ function setupWebSocketServer(server) {
       console.log(`Socket ${socket.id} joined room ${room}`);
     });
 
-    // Optional: leave events
     socket.on('leaveServer', (serverId) => {
       const room = `server_${serverId}`;
       socket.leave(room);

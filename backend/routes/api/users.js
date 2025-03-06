@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User , Server} = require('../../db/models');
 
 const router = express.Router();
 
@@ -44,8 +44,13 @@ router.post(
         firstName: user.firstName,
         lastName: user.lastName
     };
-  
-      await setTokenCookie(res, safeUser);
+    const demoServer = await Server.findOne({ where: { name: 'Demo Server' } });
+    if (demoServer) {
+      // This uses the Sequelize association helper generated from the belongsToMany relationship
+      await user.addServer(demoServer);
+    }
+    
+    await setTokenCookie(res, safeUser);
   
       return res.json({
         user: safeUser
