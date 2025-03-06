@@ -41,8 +41,11 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
-
-    await queryInterface.addIndex('ServerMembers', ['server_id', 'user_id'], {
+    let tableName = 'ServerMembers';
+    if (process.env.NODE_ENV === 'production' && process.env.SCHEMA) {
+      tableName = `${process.env.SCHEMA}.ServerMembers`;
+    }
+    await queryInterface.addIndex(tableName, ['server_id', 'user_id'], {
       unique: true,
       name: 'server_members_server_id_user_id_unique'
     });
