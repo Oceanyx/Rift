@@ -1,3 +1,4 @@
+// src/App.jsx
 import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,6 +6,7 @@ import { restoreUser } from './store/session';
 import LoginFormPage from './components/Auth/LoginFormPage';
 import SignupFormPage from './components/Auth/SignupFormPage';
 import MainPage from './components/MainPage';
+import SocketListener from './components/SocketListener';
 import './styles/global.css';
 
 function App() {
@@ -19,20 +21,24 @@ function App() {
   if (!isLoaded) return null;
 
   return (
-    <Routes>
-      {!user ? (
-        <>
-          <Route path="/login" element={<LoginFormPage />} />
-          <Route path="/register" element={<SignupFormPage />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </>
-      ) : (
-        <>
-          <Route path="/" element={<MainPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </>
-      )}
-    </Routes>
+    <>
+      {/* Mount the SocketListener only if a user is logged in */}
+      {user && <SocketListener />}
+      <Routes>
+        {!user ? (
+          <>
+            <Route path="/login" element={<LoginFormPage />} />
+            <Route path="/register" element={<SignupFormPage />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<MainPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </>
+        )}
+      </Routes>
+    </>
   );
 }
 

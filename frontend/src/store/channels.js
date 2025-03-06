@@ -1,5 +1,4 @@
 import { csrfFetch } from '../utils/csrf';
-// import socket from '../utils/socket';
 
 const LOAD_CHANNELS = 'channels/loadChannels';
 const ADD_CHANNEL = 'channels/addChannel';
@@ -63,6 +62,9 @@ const channelsReducer = (state = [], action) => {
     case LOAD_CHANNELS:
       return action.payload;
     case ADD_CHANNEL:
+      if (state.find(channel => channel.id === action.payload.id)) {
+        return state;
+      }
       return [...state, action.payload];
     case UPDATE_CHANNEL:
       return state.map(channel =>
@@ -75,13 +77,12 @@ const channelsReducer = (state = [], action) => {
   }
 };
 
-// Optional: WebSocket integration for real-time updates (if desired)
-// Uncomment and adjust these handlers if you want to update state via socket events.
-// socket.on('CHANNEL_UPDATED', (channel) => {
-//   // Dispatch an update action here if needed
-// });
-// socket.on('CHANNEL_DELETED', ({ channelId }) => {
-//   // Dispatch a delete action here if needed
-// });
+export {
+  loadChannels,
+  addChannel,
+  updateChannel,
+  deleteChannel
+};
 
 export default channelsReducer;
+

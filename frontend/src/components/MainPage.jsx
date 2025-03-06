@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchServers } from '../store/servers';
+import { fetchChannels } from '../store/channels';
 import ServerList from './Servers/ServerList';
 import ChannelList from './Channels/ChannelList';
 import ChannelMessages from './Channels/ChannelMessages';
-import { fetchServers } from '../store/servers';
-import { fetchChannels } from '../store/channels';
+import socket from '../utils/socket';
 import './MainPage.css';
 
 export default function MainPage() {
@@ -25,6 +26,18 @@ export default function MainPage() {
       setSelectedServerId(servers[0].id);
     }
   }, [servers, selectedServerId]);
+
+  // Join the server room when a server is selected
+  useEffect(() => {
+    if (selectedServerId) {
+      socket.emit('joinServer', selectedServerId);
+    }
+    return () => {
+      if (selectedServerId) {
+        socket.emit('leaveServer', selectedServerId);
+      }
+    };
+  }, [selectedServerId]);
 
   // Fetch channels when a server is selected
   useEffect(() => {
@@ -51,6 +64,7 @@ export default function MainPage() {
             <div className="channel-list-container">
               <ChannelList 
                 serverId={selectedServerId} 
+                selectedChannelId={selectedChannelId}
                 setSelectedChannelId={setSelectedChannelId} 
               />
             </div>

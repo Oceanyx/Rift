@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/session';
 import CreateChannelModal from './CreateChannelModal';
 import EditChannelModal from './EditChannelModal';
 import './ChannelList.css';
+import socket from '../../utils/socket';
 
 export default function ChannelList({ serverId, selectedChannelId, setSelectedChannelId }) {
   const dispatch = useDispatch();
@@ -18,6 +19,18 @@ export default function ChannelList({ serverId, selectedChannelId, setSelectedCh
     dispatch(logout());
   };
 
+  useEffect(() => {
+    if (selectedChannelId) {
+      socket.emit('joinChannel', selectedChannelId);
+    }
+
+    return () => {
+      if (selectedChannelId) {
+        socket.emit('leaveChannel', selectedChannelId);
+      }
+    };
+  }, [selectedChannelId]);
+  
   // Find the current server based on serverId
   const currentServer = servers.find(server => server.id === serverId);
 

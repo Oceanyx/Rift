@@ -1,5 +1,4 @@
 import { csrfFetch } from '../utils/csrf';
-import socket from '../utils/socket';
 
 const LOAD_MESSAGES = 'messages/loadMessages';
 const ADD_MESSAGE = 'messages/addMessage';
@@ -60,6 +59,9 @@ const messagesReducer = (state = [], action) => {
     case LOAD_MESSAGES:
       return action.payload;
     case ADD_MESSAGE:
+      if (state.find(message => message.id === action.payload.id)) {
+        return state;
+      }
       return [...state, action.payload];
     case UPDATE_MESSAGE:
       return state.map(message =>
@@ -72,17 +74,12 @@ const messagesReducer = (state = [], action) => {
   }
 };
 
-// WebSocket Integration
-socket.on('MESSAGE_CREATED', (message) => {
-  window.store.dispatch(addMessage(message));
-});
+export {
+  loadMessages,
+  addMessage,
+  updateMessage,
+  deleteMessage
+};
 
-socket.on('MESSAGE_UPDATED', (message) => {
-  window.store.dispatch(updateMessage(message));
-});
-
-socket.on('MESSAGE_DELETED', ({ messageId }) => {
-  window.store.dispatch(deleteMessage(messageId));
-});
 
 export default messagesReducer;

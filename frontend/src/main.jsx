@@ -1,3 +1,4 @@
+// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -7,7 +8,6 @@ import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './utils/csrf';
 import * as sessionActions from './store/session';
 import { BrowserRouter } from 'react-router-dom';
-import { WebSocketProvider } from './context/WebSocketContext'; // Add this
 
 const store = configureStore();
 
@@ -19,9 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <WebSocketProvider>
           <App />
-        </WebSocketProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
@@ -29,7 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 if (import.meta.env.MODE !== 'production') {
   restoreCSRF();
-
   window.csrfFetch = csrfFetch;
   window.store = store;
   window.sessionActions = sessionActions;
