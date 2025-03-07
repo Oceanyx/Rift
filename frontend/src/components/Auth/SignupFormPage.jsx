@@ -24,15 +24,38 @@ export default function SignupFormPage() {
   
   if (user) return <Navigate to="/" replace />;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(sessionActions.signup({ username, email, firstName, lastName, password }))
-      .catch(async (res) => {
-        const data = await res.json();
-        data?.errors && setErrors(data.errors);
-      });
+    setErrors({}); // Reset previous errors
+    
+    dispatch(sessionActions.signup({ 
+      username, 
+      email, 
+      firstName, 
+      lastName, 
+      password 
+    }))
+    .then(() => {
+      // Success! The user will be redirected automatically due to the 
+      // <Navigate> component when the Redux store updates
+    })
+    .catch((response) => {
+      // For debugging
+      console.log("Signup error response:", response);
+      
+      // Check if we have specific errors for fields
+      if (response && response.errors) {
+        setErrors(response.errors);
+      } else if (response && response.message) {
+        // If we only have a general message, display it as a general error
+        setErrors({ general: response.message });
+      } else {
+        // Fallback for unexpected error response structure
+        setErrors({ general: "An error occurred during signup. Please try again." });
+      }
+    });
   };
-
+  
   return (
     <>
     <div className="rift-logo">Rift</div>
@@ -40,6 +63,8 @@ export default function SignupFormPage() {
       <div className="discord-auth-card">
         <h1 className="discord-auth-title">Create an account</h1>
         <p className="discord-auth-subtitle">Join our community!</p>
+
+        {errors.general && <div className="discord-error general-error">{errors.general}</div>}
 
         <form onSubmit={handleSubmit} className="discord-auth-form">
           <div className="discord-input-group">
@@ -79,10 +104,12 @@ export default function SignupFormPage() {
             </label>
             <input
               type="text"
-              className="discord-input"
+              className={`discord-input ${errors.firstName ? 'error' : ''}`}
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
+            {errors.firstName && <div className="discord-error">{errors.firstName}</div>}
           </div>
 
           <div className="discord-input-group">
@@ -92,10 +119,12 @@ export default function SignupFormPage() {
               </label>
             <input
               type="text"
-              className="discord-input"
+              className={`discord-input ${errors.lastName ? 'error' : ''}`}
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
+            {errors.lastName && <div className="discord-error">{errors.lastName}</div>}
           </div>
 
           <div className="discord-input-group">
