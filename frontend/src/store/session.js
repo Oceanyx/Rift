@@ -29,7 +29,6 @@ export const login = (user) => async (dispatch) => {
   dispatch(setUser(data.user));
   return response;
 };
-
 export const signup = (user) => async (dispatch) => {
   const { username, firstName, lastName, email, password } = user;
   
@@ -43,10 +42,36 @@ export const signup = (user) => async (dispatch) => {
     dispatch(setUser(data.user));
     return response;
   } catch (error) {
-    // Extract the response from the error object
-    const errorData = await error.json();
-    // Return the full error response to be handled by the component
-    return Promise.reject(errorData);
+    // Clone the response before reading it
+    // This is important because Response objects can only be read once
+    const clonedResponse = error.clone();
+    
+    try {
+      // Try to parse the error response as JSON
+      const errorData = await error.json();
+      return Promise.reject({
+        errors: errorData.errors || {},
+        message: errorData.message || "An error occurred during signup"
+      });
+    } catch (jsonError) {
+      // If JSON parsing fails, try text
+      console.error("Error parsing JSON from response:", jsonError);
+      
+      try {
+        const errorText = await clonedResponse.text();
+        return Promise.reject({
+          message: errorText || "An error occurred during signup",
+          errors: {}
+        });
+      } catch (textError) {
+        // If all else fails
+        console.error("Error getting text from response:", textError);
+        return Promise.reject({
+          message: "An error occurred during signup",
+          errors: {}
+        });
+      }
+    }
   }
 };
 

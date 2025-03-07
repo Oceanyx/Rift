@@ -53,15 +53,16 @@ router.post(
       });
       
       if (existingUser) {
+        console.log(existingUser,email,'looking for email');
         const errors = {};
-        
+        if (existingUser.username === username) {
+          errors.username = "User with that username already exists";
+        }
         if (existingUser.email === email) {
           errors.email = "User with that email already exists";
         }
         
-        if (existingUser.username === username) {
-          errors.username = "User with that username already exists";
-        }
+        
         
         // Return a 400 status with specific error information
         return res.status(400).json({
@@ -106,12 +107,13 @@ router.post(
         const errors = {};
         
         error.errors.forEach(err => {
-          if (err.path === 'email') {
-            errors.email = "User with that email already exists";
-          }
           if (err.path === 'username') {
             errors.username = "User with that username already exists";
           }
+          if (err.path === 'email') {
+            errors.email = "User with that email already exists";
+          }
+          
         });
         
         // Return a 400 status with specific error information

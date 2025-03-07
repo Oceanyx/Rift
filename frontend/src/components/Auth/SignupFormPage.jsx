@@ -26,7 +26,7 @@ export default function SignupFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({}); // Reset previous errors
+    setErrors({});
     
     dispatch(sessionActions.signup({ 
       username, 
@@ -36,21 +36,13 @@ export default function SignupFormPage() {
       password 
     }))
     .then(() => {
-      // Success! The user will be redirected automatically due to the 
-      // <Navigate> component when the Redux store updates
     })
     .catch((response) => {
-      // For debugging
-      console.log("Signup error response:", response);
-      
-      // Check if we have specific errors for fields
       if (response && response.errors) {
         setErrors(response.errors);
       } else if (response && response.message) {
-        // If we only have a general message, display it as a general error
         setErrors({ general: response.message });
       } else {
-        // Fallback for unexpected error response structure
         setErrors({ general: "An error occurred during signup. Please try again." });
       }
     });
